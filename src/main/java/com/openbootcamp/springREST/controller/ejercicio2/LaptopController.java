@@ -34,20 +34,19 @@ public class LaptopController {
 
     //No funciona corregir
     @PostMapping("/api/laptops")
-    public ResponseEntity<Laptop> create(@RequestBody Laptop laptop) {
-        if(laptop.getId() != null){
-            return ResponseEntity.badRequest().build();
+    public ResponseEntity<String> create(@RequestBody Laptop laptop) {
+        if(laptop.getId() != null) {
+            return ResponseEntity.badRequest().body("No se guardo correctamento el laptop, no debe ingresarse un id.");
+        }else{
+            laptopRepository.save(laptop);
+            return ResponseEntity.ok("La laptop se creo correctamente.");
         }
-        if(laptopRepository.existsById(laptop.getId())){
-            return ResponseEntity.badRequest().build();
-        }
-        return ResponseEntity.ok(laptopRepository.save(laptop));
     }
 
     //No funciona corregir
     @PutMapping("/api/laptops")
     public ResponseEntity<Laptop> update(@RequestBody Laptop laptop){
-        if(laptop.getId() != null){
+        if(laptop.getId() == null){
             return ResponseEntity.badRequest().build();
         }
 
